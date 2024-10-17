@@ -12,7 +12,11 @@ from nag_utils import restore_checkpoint
 from nag_utils import load_graph_config
 from nag_utils import load_model
 
-sys.path.append(os.path.join(os.getcwd(), 'main_exp'))
+sys.path.append(os.path.join(os.getcwd(), 'NAS-Bench-201'))
+sys.path.append(os.path.join(os.getcwd(), 'NAS-Bench-201/main_exp'))
+sys.path.append(os.path.join(os.getcwd(), 'NAS-Bench-201/main_exp/diffusion'))
+# print(sys.path)
+
 from nas_bench_201 import train_single_model
 from unnoised_model import MetaSurrogateUnnoisedModel
 from diffusion.run_lib import generate_archs_meta
@@ -37,6 +41,7 @@ class NAG:
         self.num_sample = args.num_sample
 
         graph_config = load_graph_config(args.graph_data_name, args.nvt, NASBENCH201)
+        # 代理模型 surrogate model
         self.meta_surrogate_unnoised_model = MetaSurrogateUnnoisedModel(args, graph_config)
         load_model(model=self.meta_surrogate_unnoised_model, 
                    ckpt_path=META_SURROGATE_UNNOISED_CKPT_PATH)
@@ -106,6 +111,7 @@ class NAG:
         f_arch_acc = open(os.path.join(self.args.exp_name, 'accuracy.txt'), 'w')
 
         ## Generate architectures
+        # 生成架构
         gen_arch_str = self.get_gen_arch_str()
         gen_arch_igraph = self.get_items(
             full_target=self.nasbench201['arch']['igraph'],
@@ -145,7 +151,7 @@ class NAG:
         else:
             if self.args.multi_proc:
                 ## Run multiple processes in parallel
-                run_file = os.path.join(os.getcwd(), 'main_exp', 'transfer_nag', 'run_multi_proc.py')
+                run_file = os.path.join(os.getcwd(), 'NAS-Bench-201', 'main_exp', 'transfer_nag', 'run_multi_proc.py')
                 MAX_CAP = 5 # hard-coded for available GPUs
                 if not len(arch_idx_lst) > MAX_CAP:
                     arch_idx_lst_ = [arch_idx for arch_idx in arch_idx_lst if not os.path.exists(os.path.join(meta_test_path, str(arch_idx)))]
@@ -259,7 +265,7 @@ class NAG:
 
 
     def load_diffusion_model(self, args):
-        self.config = torch.load('./configs/transfer_nag_config.pt')
+        self.config = torch.load(os.path.join(os.getcwd(), 'NAS-Bench-201/configs/transfer_nag_config.pt'))
         self.config.device = torch.device('cuda')
         self.config.data.label_list = ['meta-acc']
         self.config.scorenet_ckpt_path = SCORENET_CKPT_PATH

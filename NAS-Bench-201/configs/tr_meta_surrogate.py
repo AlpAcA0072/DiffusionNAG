@@ -5,7 +5,7 @@ import torch
 from all_path import SCORENET_CKPT_PATH
 from all_path import NASBENCH201_INFO
 
-
+# 代理模型 surrogate model
 def get_config():
     config = ml_collections.ConfigDict()
 

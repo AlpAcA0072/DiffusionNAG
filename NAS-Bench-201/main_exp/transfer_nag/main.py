@@ -70,6 +70,7 @@ def main():
     args = get_parser()
 
     ## Set gpus and seeds
+    # 设置随机种子保证结果可复现
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
     torch.cuda.manual_seed(args.seed)
     torch.manual_seed(args.seed)

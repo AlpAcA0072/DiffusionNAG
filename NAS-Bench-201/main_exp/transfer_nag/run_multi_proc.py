@@ -4,7 +4,9 @@ from absl import app, flags
 import sys
 import torch
 
-sys.path.append(os.path.join(os.getcwd(), 'main_exp'))
+sys.path.append(os.path.join(os.getcwd(), 'NAS-Bench-201'))
+sys.path.append(os.path.join(os.getcwd(), 'NAS-Bench-201/main_exp'))
+sys.path.append(os.path.join(os.getcwd(), 'NAS-Bench-201/main_exp/diffusion'))
 from nas_bench_201 import train_single_model
 from all_path import NASBENCH201
 

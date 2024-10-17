@@ -61,6 +61,7 @@ def load_graph_config(graph_data_name, nvt, data_path):
     return graph_config
 
 
+# 将NAS—Bench201转换为图的步骤
 def decode_NAS_BENCH_201_8_to_igraph(row):
     if type(row) == str:
         row = eval(row)  # convert string to list of lists
@@ -68,12 +69,15 @@ def decode_NAS_BENCH_201_8_to_igraph(row):
     g = igraph.Graph(directed=True)
     g.add_vertices(n)
     for i, node in enumerate(row):
+        # g.vs: 所有顶点的集合
+        # 通过给 g.vs[i]['attribute'] 赋值的方式来设置属性
         g.vs[i]['type'] = node[0]
         if i < (n - 2) and i > 0:
             g.add_edge(i, i + 1)  # always connect from last node
         for j, edge in enumerate(node[1:]):
             if edge == 1:
                 g.add_edge(j, i)
+    # print(g)
     return g, n
 
 

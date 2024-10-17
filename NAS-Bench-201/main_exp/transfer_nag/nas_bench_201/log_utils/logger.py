@@ -10,6 +10,8 @@ else:                           # Python 3.x
   from io import BytesIO as BIO
 
 if importlib.util.find_spec('tensorflow'):
+  import warnings
+  warnings.filterwarnings('ignore', category=FutureWarning)
   import tensorflow as tf
 
 

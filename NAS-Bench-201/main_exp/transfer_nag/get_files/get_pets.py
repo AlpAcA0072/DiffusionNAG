@@ -8,6 +8,7 @@ import requests
 import zipfile
 import sys
 sys.path.append(os.path.join(os.getcwd(), 'main_exp'))
+sys.path.append(os.getcwd())
 from all_path import RAW_DATA_PATH
 
 
